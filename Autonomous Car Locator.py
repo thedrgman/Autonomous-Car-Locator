@@ -13,28 +13,6 @@ import random
 
 def locator():
     
-    """
-    self_car = {
-            "speed" : 50, #the speed of the current car
-            "compass" : "N", #the direction of the current car 
-            "gps" : 36.00000, #the current GPS location of the current car
-            "id" : 1423456 #the ID number of the car
-        },
-
-        car1 = {
-            "speed" : 45, #Speed of car1
-            "compass" : "N", #Direction of car1
-            "gps" : 36.01836, #GPS of car1
-            "id" : 1423414 #the ID number of the car
-        },
-
-        car2 = {
-            "speed" : 45, #Speed of car1
-            "compass" : "N", #Direction of car1
-            "gps" : 36.01836, #GPS of car1
-            "id" : 2463485 #the ID number of the car
-        }
-    """
 
     cars = [
         {
@@ -42,28 +20,13 @@ def locator():
             "compass" : "N", #the direction of the current car
             "id" : 1423456, #the ID number of the car
             "gps" : 36.00000 #the current GPS location of the current car
-        },
-        {
-            "speed" : 45, #Speed of car1
-            "compass" : "N", #Direction of car1
-            "id" : 1423414, #the ID number of the car
-            "gps" : 36.01836 #GPS of car1
-        },
-        {
-            "speed" : 45, #Speed of car1
-            "compass" : "N", #Direction of car1
-            "id" : 2463485, #the ID number of the car
-            "gps" : 36.01836 #GPS of car1
         }
     ]
-
-    sensor = ["front", "right", "rear", "left"] #4 available sensors on the car, on all 4 sides
-    position = random.choice(sensor) #where is the other car located relative to yours
     
 
     def info_input(): #this is to gather the speed and compass direction of your car and the other car
         i = 0
-        while len(cars) > i:
+        while True:#len(cars) > i:
             if i == 0:
                 print("YOUR CAR")
                 speed = speed_type()
@@ -73,18 +36,29 @@ def locator():
                 cars[0][1] = compass
                 print("The current direction of your car is " + cars[0][1] + "\n")
             else:
+                new_car = {
+                    "speed" : 50, #the speed of the current car
+                    "compass" : "N", #the direction of the current car
+                    "id" : 1423456, #the ID number of the car
+                    "gps" : 36.00000 #the current GPS location of the current car
+                }
                 print("Car " + str(i))
                 speed = speed_type()
-                cars[i][0] = speed
-                print("The current speed of Car " + str(i) + " is " + str(cars[i][0]) + "mph\n")
+                new_car[0] = speed
+                print("The current speed of Car " + str(i) + " is " + str(new_car[0]) + "mph\n")
                 print("Both cars can only be traveling the same or opposite directions.")
                 print("Please only choose the same direction or the opposite on.")
                 compass = compass_type()
-                cars[i][1] = compass
-                print("The current direction of Car " + str(i) + " is " + cars[i][1] + "\n")
-                cars[i][2] = random.randrange(1420,62416,2)
+                new_car[1] = compass
+                print("The current direction of Car " + str(i) + " is " + new_car[1] + "\n")
+                new_car[2] = random.randrange(1420,62416,2)
+                cars.append(new_car)
+            stop_count = input("If there are no more cars to add, type [E] for End or [C] for continue.\n")
+            stop_count = stop_count.upper()
+            if stop_count == "E" or stop_count == "END":
+                break
             i += 1
-            
+        print(len(cars))
 
     def speed_type(): #if the input for the speed is not a number then it keeps asking for the speed
         val_type = "str"
@@ -163,6 +137,8 @@ def locator():
       
 
         def sensors(): #Which sensors are being triggered on your car, or where is the car is in relation to you
+            sensor = ["front", "right", "rear", "left"] #4 available sensors on the car, on all 4 sides
+            position = random.choice(sensor) #where is the other car located relative to yours
             if position == "front":
                 print("The car is in front of your car")
             elif position == "right":
@@ -175,6 +151,7 @@ def locator():
 
         direction = compass()
         relative_speed = speed_compare()
+        position = sensors()
 
         def visual_before(): #displays what the current layout of the road is
             print("\nCURRENT ROAD LAYOUT")
